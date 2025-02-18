@@ -2,6 +2,7 @@ package com.projeto.algaworks.algaworks_api.controller;
 
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
+import com.projeto.algaworks.algaworks_api.domain.service.RegistroProprietarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import java.util.List;
 @RequestMapping("/proprietarios")
 public class ProprietarioController {
 
+    private final RegistroProprietarioService registroProprietarioService ;
     private final ProprietarioRepository proprietarioRepository ;
 
     @GetMapping
@@ -35,12 +37,12 @@ public class ProprietarioController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Proprietario adicionarProprietario (@Valid @RequestBody Proprietario proprietario) {
-        return proprietarioRepository.save(proprietario);
+        return registroProprietarioService.salvar(proprietario) ;
     }
 
 
     @PutMapping("/{proprietarioId}")
-    public ResponseEntity<Proprietario> modificarProprietario (@PathVariable Long proprietarioId , @RequestBody Proprietario proprietario) {
+    public ResponseEntity<Proprietario> modificarProprietario (@PathVariable Long proprietarioId , @Valid @RequestBody Proprietario proprietario) {
 
 //        Verifica a existência do objeto:
         if (!proprietarioRepository.existsById(proprietarioId)) {
@@ -48,9 +50,8 @@ public class ProprietarioController {
         }
 
 //      Para evitar que o Spring tente atualizar um proprietario com o id nulo, já que não passamos ele na hora de inserir dados, a gente adiciona manualmente neste momento!
-
         proprietario.setId(proprietarioId);
-        Proprietario proprietarioAtualizado = proprietarioRepository.save(proprietario);
+        Proprietario proprietarioAtualizado = registroProprietarioService.salvar(proprietario);
 
 //        Retorno o código 200 junto do objeto em json
         return ResponseEntity.ok(proprietarioAtualizado);
@@ -62,7 +63,7 @@ public class ProprietarioController {
         if (!proprietarioRepository.existsById(proprietarioId)) {
             return ResponseEntity.notFound().build() ;
         }
-        proprietarioRepository.deleteById(proprietarioId);
+        registroProprietarioService.deletarProprietario(proprietarioId);
 
 //        Retorno o código 204 (deu certo, mas nada foi encontrado/retornado)
         return ResponseEntity.noContent().build();
