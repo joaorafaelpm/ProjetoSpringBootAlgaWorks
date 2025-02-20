@@ -1,5 +1,6 @@
 package com.projeto.algaworks.algaworks_api.controller;
 
+import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
 import com.projeto.algaworks.algaworks_api.domain.service.RegistroProprietarioService;
@@ -69,5 +70,11 @@ public class ProprietarioController {
         return ResponseEntity.noContent().build();
     }
 
+
+
+    @ExceptionHandler(RegraDeNegocioException.class)
+    public ResponseEntity<String> capturar (RegraDeNegocioException e) {
+         return ResponseEntity.badRequest().body(e.getMessage());
+    }
 
 }

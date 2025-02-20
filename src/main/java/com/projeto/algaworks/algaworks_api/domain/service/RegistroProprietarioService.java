@@ -20,7 +20,7 @@ public class RegistroProprietarioService {
 //        Traduzindo: a variável emailEmUso será true quando, o email existir (.isPresent()) e se o email for diferente do proprietario que está sendo salvo (por que se o email for igual simplesmente não lança o erro, já que ele já existe).
         boolean emailEmUso = proprietarioRepository.findByEmail(proprietario.getEmail())
                 .filter(currentPoprietario -> !currentPoprietario.equals(proprietario))
-                .isPresent()    ;
+                .isPresent();
 
         if (emailEmUso) {
             throw new RegraDeNegocioException("Email está em uso");
