@@ -1,11 +1,14 @@
 package com.projeto.algaworks.algaworks_api.controller;
 
+import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
 import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
 import com.projeto.algaworks.algaworks_api.domain.repository.VeiculoRepository;
 import com.projeto.algaworks.algaworks_api.domain.service.RegistroVeiculoService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +35,13 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Veiculo adicionarVeiculo (@RequestBody Veiculo veiculo) {
+    public Veiculo adicionarVeiculo (@Valid @RequestBody Veiculo veiculo) {
         return registroVeiculoService.cadastrar(veiculo);
+    }
+
+    @ExceptionHandler(RegraDeNegocioException.class)
+    public ResponseEntity<String> capturar (RegraDeNegocioException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 
 }

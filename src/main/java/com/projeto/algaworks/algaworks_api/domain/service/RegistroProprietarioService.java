@@ -2,6 +2,7 @@ package com.projeto.algaworks.algaworks_api.domain.service;
 
 import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
+import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
 import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Service;
 public class RegistroProprietarioService {
 
     private final ProprietarioRepository proprietarioRepository  ;
+
+    public Proprietario buscarProprietarioVeiculo (Veiculo veiculo) {
+        return proprietarioRepository.findById(veiculo.getProprietario().getId())
+                .orElseThrow(() -> new RegraDeNegocioException("Proprietario não encontrado"));
+    }
 
 //   (@Transactional) Isso indica que caso haja um erro na aplicação ela vai parar todas as execuções do banco de dados, o chamado row back
     @Transactional
