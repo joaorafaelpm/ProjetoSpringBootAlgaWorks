@@ -71,10 +71,4 @@ public class ProprietarioController {
     }
 
 
-
-    @ExceptionHandler(RegraDeNegocioException.class)
-    public ResponseEntity<String> capturar (RegraDeNegocioException e) {
-         return ResponseEntity.badRequest().body(e.getMessage());
-    }
-
 }
