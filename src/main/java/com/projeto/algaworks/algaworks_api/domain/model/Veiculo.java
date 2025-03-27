@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Getter
 @Setter
@@ -30,10 +30,7 @@ public class Veiculo {
     @Valid
     @ConvertGroup(from = Default.class ,to = ValidationGroups.ProprietarioId.class )
     @NotNull
-//    Como é um objeto eu passo o NotNull ao invés de NotBlank
     @ManyToOne
-//    @JoinColumn(name="proprietario_id")
-//    Não precisa por que o jakarta já entende que o que liga o proprietário nessa tabela é a chave estrangeira
     private Proprietario proprietario;
 
     @NotBlank
@@ -50,13 +47,11 @@ public class Veiculo {
     @Enumerated(EnumType.STRING)
     private StatusVeiculo status ;
 
-//    @Column(name="data_cadastro")
-//    Não precisa por que o jakarta entende que dataCadastro e data_cadastro é a mesma coisa!
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataCadastro ;
+    private OffsetDateTime dataCadastro ;
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime dataApreenssao ;
+    private OffsetDateTime dataApreenssao ;
 
 
 }

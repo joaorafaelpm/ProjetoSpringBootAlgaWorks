@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Service
 @AllArgsConstructor
@@ -39,7 +40,7 @@ public class RegistroVeiculoService {
 
         novoVeiculo.setProprietario(proprietario);
         novoVeiculo.setStatus(StatusVeiculo.REGULAR);
-        novoVeiculo.setDataCadastro(LocalDateTime.now());
+        novoVeiculo.setDataCadastro(OffsetDateTime.now());
         return veiculoRepository.save(novoVeiculo);
     }
 
