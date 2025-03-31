@@ -1,9 +1,10 @@
 package com.projeto.algaworks.algaworks_api.controller;
 
-import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
+import com.projeto.algaworks.algaworks_api.assembler.ProprietarioModelAssembler;
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
 import com.projeto.algaworks.algaworks_api.domain.service.RegistroProprietarioService;
+import com.projeto.algaworks.algaworks_api.model.ProprietarioRepresentationModel;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,15 +20,17 @@ public class ProprietarioController {
 
     private final RegistroProprietarioService registroProprietarioService ;
     private final ProprietarioRepository proprietarioRepository ;
+    private final ProprietarioModelAssembler proprietarioModelAssembler ;
 
     @GetMapping
-    public List<Proprietario> listarProprietarios () {
-        return proprietarioRepository.findAll();
+    public List<ProprietarioRepresentationModel> listarProprietarios () {
+        return proprietarioModelAssembler.toCollectionModel(proprietarioRepository.findAll());
     }
 
     @GetMapping("/{proprietarioId}")
-    public ResponseEntity<Proprietario> buscar (@PathVariable Long proprietarioId) {
+    public ResponseEntity<ProprietarioRepresentationModel> buscar (@PathVariable Long proprietarioId) {
         return proprietarioRepository.findById(proprietarioId)
+                .map(proprietarioModelAssembler::toModel)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
@@ -37,13 +40,13 @@ public class ProprietarioController {
 //    Uma alternativa melhor do que criar um ResponseEntity neste caso que eu só quero modificar o código http e nada mais, eu passo o status como um novo atributo criado!
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public Proprietario adicionarProprietario (@Valid @RequestBody Proprietario proprietario) {
-        return registroProprietarioService.salvar(proprietario) ;
+    public ProprietarioRepresentationModel adicionarProprietario (@Valid @RequestBody Proprietario proprietario) {
+        return proprietarioModelAssembler.toModel(registroProprietarioService.salvar(proprietario)) ;
     }
 
 
     @PutMapping("/{proprietarioId}")
-    public ResponseEntity<Proprietario> modificarProprietario (@PathVariable Long proprietarioId , @Valid @RequestBody Proprietario proprietario) {
+    public ResponseEntity<ProprietarioRepresentationModel> modificarProprietario (@PathVariable Long proprietarioId , @Valid @RequestBody Proprietario proprietario) {
 
 //        Verifica a existência do objeto:
         if (!proprietarioRepository.existsById(proprietarioId)) {
@@ -52,7 +55,7 @@ public class ProprietarioController {
 
 //      Para evitar que o Spring tente atualizar um proprietario com o id nulo, já que não passamos ele na hora de inserir dados, a gente adiciona manualmente neste momento!
         proprietario.setId(proprietarioId);
-        Proprietario proprietarioAtualizado = registroProprietarioService.salvar(proprietario);
+        ProprietarioRepresentationModel proprietarioAtualizado = proprietarioModelAssembler.toModel(registroProprietarioService.salvar(proprietario));
 
 //        Retorno o código 200 junto do objeto em json
         return ResponseEntity.ok(proprietarioAtualizado);

@@ -4,7 +4,6 @@ import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 

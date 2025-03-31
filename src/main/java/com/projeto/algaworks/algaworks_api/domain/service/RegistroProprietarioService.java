@@ -1,9 +1,11 @@
 package com.projeto.algaworks.algaworks_api.domain.service;
 
+import com.projeto.algaworks.algaworks_api.assembler.ProprietarioModelAssembler;
 import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
 import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
+import com.projeto.algaworks.algaworks_api.model.ProprietarioRepresentationModel;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class RegistroProprietarioService {
 
     private final ProprietarioRepository proprietarioRepository  ;
+    private final ProprietarioModelAssembler proprietarioModelAssembler;
 
     public Proprietario buscarProprietarioVeiculo (Veiculo veiculo) {
         return proprietarioRepository.findById(veiculo.getProprietario().getId())
@@ -31,6 +34,7 @@ public class RegistroProprietarioService {
         if (emailEmUso) {
             throw new RegraDeNegocioException("Email está em uso");
         }
+
         return proprietarioRepository.save(proprietario);
     }
 

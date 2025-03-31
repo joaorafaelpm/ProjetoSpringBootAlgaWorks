@@ -1,27 +1,29 @@
-package com.projeto.algaworks.algaworks_api.domain.model;
+package com.projeto.algaworks.algaworks_api.model;
 
-import jakarta.persistence.*;
-
-import lombok.EqualsAndHashCode;
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Entity
-@Table(name="proprietarios")
+public class ProprietarioRepresentationModel {
 
-public class Proprietario {
-
-    @EqualsAndHashCode.Include
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id ;
 
+    @NotBlank
+    @Size(max = 60)
     private String name;
+
+    @NotBlank
+    @Size(max = 255)
+    @Email
     private String email ;
 
+    @NotBlank
+    @Size(max = 255)
     @Column(name="telefone")
     private String phone ;
 
@@ -31,4 +33,5 @@ public class Proprietario {
         this.email = email;
         this.phone = phone;
     }
+
 }

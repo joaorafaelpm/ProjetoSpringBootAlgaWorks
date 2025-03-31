@@ -4,14 +4,11 @@ import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioExcept
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.model.StatusVeiculo;
 import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
-import com.projeto.algaworks.algaworks_api.domain.repository.ProprietarioRepository;
 import com.projeto.algaworks.algaworks_api.domain.repository.VeiculoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 
 @Service

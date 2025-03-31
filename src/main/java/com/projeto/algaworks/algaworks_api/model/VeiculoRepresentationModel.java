@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 public class VeiculoRepresentationModel {
 
     private Long id ;
-    private String nomeProprietario ;
+    private ProprietarioResumoModel proprietario ;
     private String marca ;
     private String modelo ;
     private String placa ;
@@ -19,9 +19,9 @@ public class VeiculoRepresentationModel {
     private OffsetDateTime dataCadastro ;
     private OffsetDateTime dataApreenssao ;
 
-    public void setVeiculoRepresentation (Long id ,String nomeProprietario ,String marca ,String modelo ,String placa ,StatusVeiculo status ,OffsetDateTime dataCadastro ,OffsetDateTime dataApreenssao) {
+    public void setVeiculoRepresentation (Long id ,ProprietarioResumoModel proprietario ,String marca ,String modelo ,String placa ,StatusVeiculo status ,OffsetDateTime dataCadastro ,OffsetDateTime dataApreenssao) {
         this.id = id;
-        this.nomeProprietario = nomeProprietario;
+        this.proprietario = proprietario;
         this.marca = marca;
         this.placa = placa;
         this.status = status;
