@@ -23,10 +23,18 @@ public class ProprietarioController {
     private final ProprietarioModelAssembler proprietarioModelAssembler ;
 
     @GetMapping
+    /**
+     * Mostra todos os proprietários e retorna uma lista com os proprietários na classe de representação deles
+     */
     public List<ProprietarioRepresentationModel> listarProprietarios () {
         return proprietarioModelAssembler.toCollectionModel(proprietarioRepository.findAll());
     }
 
+    /**
+     * Busca por um proprietário procurando pelo seu id
+     * @param proprietarioId - id do proprietário que passamos como parte da uri
+     * @return - retorna uma responseEntity, para passar o status da requisição junto do objeto na classe de representação do proprietário
+     */
     @GetMapping("/{proprietarioId}")
     public ResponseEntity<ProprietarioRepresentationModel> buscar (@PathVariable Long proprietarioId) {
         return proprietarioRepository.findById(proprietarioId)
@@ -40,12 +48,22 @@ public class ProprietarioController {
 //    Uma alternativa melhor do que criar um ResponseEntity neste caso que eu só quero modificar o código http e nada mais, eu passo o status como um novo atributo criado!
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ProprietarioRepresentationModel adicionarProprietario (@Valid @RequestBody Proprietario proprietario) {
+    /**
+     * Adiciona um proprietário no banco
+     * @param proprietario - como parâmetro para passarmos para o body temos a classe original de proprietário que será transformada em usa versão de representação da classe proprietário
+     */
+    public ProprietarioRepresentationModel adicionarProprietario (@Valid @RequestBody Proprietario proprietario){
         return proprietarioModelAssembler.toModel(registroProprietarioService.salvar(proprietario)) ;
     }
 
 
     @PutMapping("/{proprietarioId}")
+    /**
+     * Atualiza o proprietário dentro do repositório
+     * @param proprietarioId - id do proprietário que vamos atualizar
+     * @param proprietario - nova classe de proprietário que vamos substituir pela antiga
+     * @return - retorna um responseEntity com o status de OK + a classe de representação de proprietário
+     */
     public ResponseEntity<ProprietarioRepresentationModel> modificarProprietario (@PathVariable Long proprietarioId , @Valid @RequestBody Proprietario proprietario) {
 
 //        Verifica a existência do objeto:
@@ -62,6 +80,11 @@ public class ProprietarioController {
     }
 
     @DeleteMapping("/{proprietarioId}")
+    /**
+     * Exclui um proprietário do repositório
+     * @param proprietarioId - como parâmetro passamos o id do usuário que vamos deletar
+     * @retunr - retornamos um responseEntity para passar o status para o consumidor
+     */
     public ResponseEntity<Void> excluirProprietario (@PathVariable Long proprietarioId) {
 //        Verifico se o objeto existe:
         if (!proprietarioRepository.existsById(proprietarioId)) {

@@ -18,6 +18,11 @@ public class RegistroProprietarioService {
     private final ProprietarioRepository proprietarioRepository  ;
     private final ProprietarioModelAssembler proprietarioModelAssembler;
 
+    /**
+     * busca o proprietário pelo veículo dele
+     * @param veiculo - veículo que o proprietário será procurado
+     * @return - retorna o proprietário encontrado
+     */
     public Proprietario buscarProprietarioVeiculo (Veiculo veiculo) {
         return proprietarioRepository.findById(veiculo.getProprietario().getId())
                 .orElseThrow(() -> new RegraDeNegocioException("Proprietario não encontrado"));
@@ -25,12 +30,16 @@ public class RegistroProprietarioService {
 
 //   (@Transactional) Isso indica que caso haja um erro na aplicação ela vai parar todas as execuções do banco de dados, o chamado row back
     @Transactional
+    /**
+     * Salva um novo proprietário em nosso repositório
+     * @param proprietario - refere ao proprietário que vamos adicionar ao banco
+     * @return - retorna esse mesmo proprietário
+     */
     public Proprietario salvar (Proprietario proprietario) {
-//        Traduzindo: a variável emailEmUso será true quando, o email existir (.isPresent()) e se o email for diferente do proprietario que está sendo salvo (por que se o email for igual simplesmente não lança o erro, já que ele já existe).
+//        Fazendo veríficações de email
         boolean emailEmUso = proprietarioRepository.findByEmail(proprietario.getEmail())
                 .filter(currentPoprietario -> !currentPoprietario.equals(proprietario))
                 .isPresent();
-
         if (emailEmUso) {
             throw new RegraDeNegocioException("Email está em uso");
         }
@@ -39,6 +48,10 @@ public class RegistroProprietarioService {
     }
 
     @Transactional
+    /**
+     * Deleta um proprietário do repositório
+     * @param proprietarioId - id referente ao proprietário que vai ser deletado
+     */
     public void deletarProprietario (Long proprietarioId) {
         proprietarioRepository.deleteById(proprietarioId);
     }

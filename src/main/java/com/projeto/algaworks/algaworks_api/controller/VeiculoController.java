@@ -27,11 +27,19 @@ public class VeiculoController {
 
 
     @GetMapping
+    /**
+     * Mostra todos os veículos e retorna uma lista com os veículos na classe de representação deles
+     */
     public List<VeiculoRepresentationModel> listarVeiculos () {
         return veiculoAssembler.toCollectionModel(veiculoRepository.findAll());
     }
 
     @GetMapping("/{veiculoId}")
+    /**
+     * Busca por um veículo procurando pelo seu id
+     * @param veiculoId - id do veículo que passamos como parte da uri
+     * @return - retorna uma responseEntity, para passar o status da requisição junto do objeto na classe de representação do veículo
+     */
     public ResponseEntity<VeiculoRepresentationModel> buscarVeiculo (@PathVariable Long veiculoId) {
         return veiculoRepository.findById(veiculoId)
                 .map(veiculoAssembler::toModel)
@@ -41,6 +49,10 @@ public class VeiculoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    /**
+     * Adiciona um veículo no banco
+     * @param cadastrarVeiculo - como parâmetro para passarmos para o body temos a classe que representa o modelo para cadastrar um novo veículo
+     */
     public VeiculoRepresentationModel adicionarVeiculo (@Valid @RequestBody CadastrarVeiculo cadastrarVeiculo) {
         Veiculo novoVeiculo = veiculoAssembler.toEntity(cadastrarVeiculo) ;
         return veiculoAssembler.toModel(registroVeiculoService.cadastrar(novoVeiculo)) ;

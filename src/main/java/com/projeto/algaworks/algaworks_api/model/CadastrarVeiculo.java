@@ -21,7 +21,7 @@ public class CadastrarVeiculo {
     private String modelo ;
 
     @NotBlank
-    @Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9]{2}")
+    @Pattern(regexp = "[A-Z]{3}[0-9][A-Z0-9][0-9]{2}")
     private String placa ;
 
     @Valid

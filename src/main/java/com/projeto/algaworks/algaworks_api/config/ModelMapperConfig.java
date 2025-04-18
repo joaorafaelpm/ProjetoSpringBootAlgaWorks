@@ -8,6 +8,9 @@ import org.springframework.context.annotation.Configuration;
 public class ModelMapperConfig {
 
     @Bean
+    /**
+     * Configuro a classe ModelMapper para que o Spring reconheça e consiga usar seus métodos
+     */
     public ModelMapper modelMapper () {
         return new ModelMapper() ;
     }

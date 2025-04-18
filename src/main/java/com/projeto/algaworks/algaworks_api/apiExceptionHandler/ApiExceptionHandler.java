@@ -27,6 +27,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     //    Aqui eu sobrescrevo a minha exceção que foi lançada no caso de algum elemento da minha api for retornado como blank, o ResponseEntityExceptionHandler cuida da parte de transformar esse ,eu código de erro em um objeto JSON que é manipulável, e eu modifico o que é passado nos parâmetros
     @Override
+    /**
+     * Usa da biblioteca do ResponseEntityExceptionHandler para customizar a menssagem de erro de algum elemento inválido durante alguma requisição.
+     * @params MethodArgumentNotValidException (ex) - Esse é a excessão padrão de quando algum elemento é passado errado, seja nulo ou com algum erro de padronização que fuja do esperado. É um objeto que recebe um parâmetro de procurar por elementos faltando/nulos
+     * @params HttpStatusCode (status) - status que vai definir qual é o tipo de erro para lidarmos com ele
+     */
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                         HttpHeaders headers, HttpStatusCode status, WebRequest request) {
 
@@ -49,6 +54,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
+    /**
+     *  Faz o tratamento de conflitos de informações no servidor. Então o exceptionHandler é responsável somente por padronizar a exceção lancada pelo erro de integridade das informações!
+     */
     public ProblemDetail handleDataIntegrityValidation (DataIntegrityViolationException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.CONFLICT);
         problemDetail.setTitle("Recurso está em uso");
@@ -58,6 +66,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(RegraDeNegocioException.class)
+    /**
+     * Faz qualquer tratamento dentro das nossas regras de negócios que já cuida de qualquer validação e deixa o exceptionHandler responsável somente por simplificar e padronizar a excessão
+     */
     public ProblemDetail handleNegocio (RegraDeNegocioException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setType(URI.create("https://algatransito/erros/regra-de-negocio"));
