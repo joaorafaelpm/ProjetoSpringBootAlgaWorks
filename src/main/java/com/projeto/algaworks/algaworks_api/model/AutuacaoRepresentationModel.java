@@ -1,6 +1,6 @@
 package com.projeto.algaworks.algaworks_api.model;
 
-import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
+
 import lombok.Getter;
 import lombok.Setter;
 

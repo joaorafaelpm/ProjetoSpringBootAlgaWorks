@@ -1,6 +1,7 @@
 package com.projeto.algaworks.algaworks_api.domain.service;
 
 import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
+import com.projeto.algaworks.algaworks_api.domain.exception.VeiculoNaoEncontradoException;
 import com.projeto.algaworks.algaworks_api.domain.model.Proprietario;
 import com.projeto.algaworks.algaworks_api.domain.model.StatusVeiculo;
 import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
@@ -21,7 +22,7 @@ public class RegistroVeiculoService {
 
     public Veiculo buscarVeiculo (Long veiculoId) {
         return veiculoRepository.findById(veiculoId)
-                .orElseThrow(() -> new RegraDeNegocioException("Veiculo não encontrado!"));
+                .orElseThrow(() -> new VeiculoNaoEncontradoException("Veiculo não encontrado!"));
     }
 
 

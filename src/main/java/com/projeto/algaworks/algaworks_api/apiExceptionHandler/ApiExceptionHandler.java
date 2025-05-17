@@ -1,6 +1,7 @@
 package com.projeto.algaworks.algaworks_api.apiExceptionHandler;
 
 import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
+import com.projeto.algaworks.algaworks_api.domain.exception.VeiculoNaoEncontradoException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -76,6 +77,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return problemDetail;
     }
+
+    @ExceptionHandler(VeiculoNaoEncontradoException.class)
+
+    public ProblemDetail handleVeiculoNaoEncontrado (VeiculoNaoEncontradoException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problemDetail.setType(URI.create("https://algatransito/erros/regra-de-negocio"));
+        problemDetail.setTitle(e.getMessage());
+
+        return problemDetail;
+    }
+
 
 
 

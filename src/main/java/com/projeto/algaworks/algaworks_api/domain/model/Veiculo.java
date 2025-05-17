@@ -1,5 +1,7 @@
     package com.projeto.algaworks.algaworks_api.domain.model;
 
+import com.projeto.algaworks.algaworks_api.domain.exception.RegraDeNegocioException;
+import com.projeto.algaworks.algaworks_api.model.AutuacaoRepresentationModel;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -50,6 +52,30 @@ public class Veiculo {
         getAutuacoes().add(autuacao);
         return autuacao;
     }
+
+    public boolean estaApreendido () {
+        return StatusVeiculo.APREENDIDO.equals(getStatus()) ;
+    }
+    public boolean naoEstaApreendido () {
+        return !estaApreendido() ;
+    }
+
+    public void apreender () {
+        if (estaApreendido()) {
+            throw new RegraDeNegocioException("Veículo já apreendido!");
+        }
+        setStatus(StatusVeiculo.APREENDIDO);
+    }
+
+    public void removerApreenssao () {
+        if (naoEstaApreendido()) {
+            throw new RegraDeNegocioException("Veículo já apreendido!");
+        }
+        setStatus(StatusVeiculo.REGULAR);
+        setDataApreenssao(null);
+    }
+
+
 
 
 }

@@ -1,5 +1,6 @@
 package com.projeto.algaworks.algaworks_api.assembler;
 
+import com.projeto.algaworks.algaworks_api.domain.model.Autuacao;
 import com.projeto.algaworks.algaworks_api.domain.model.Veiculo;
 import com.projeto.algaworks.algaworks_api.model.CadastrarVeiculo;
 import com.projeto.algaworks.algaworks_api.model.VeiculoRepresentationModel;
