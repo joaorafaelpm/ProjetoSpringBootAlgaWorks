@@ -21,6 +21,6 @@ public class ApreenssaoVeiculosService {
     @Transactional
     public void liberar (Long veiculoId) {
         Veiculo veiculo = registroVeiculoService.buscarVeiculo(veiculoId);
-        veiculo.removerApreenssao();
+        veiculo.removerApreensao();
     }
 }

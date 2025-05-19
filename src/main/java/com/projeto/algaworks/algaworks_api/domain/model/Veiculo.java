@@ -65,11 +65,12 @@ public class Veiculo {
             throw new RegraDeNegocioException("Veículo já apreendido!");
         }
         setStatus(StatusVeiculo.APREENDIDO);
+        setDataApreenssao(OffsetDateTime.now());
     }
 
-    public void removerApreenssao () {
+    public void removerApreensao () {
         if (naoEstaApreendido()) {
-            throw new RegraDeNegocioException("Veículo já apreendido!");
+            throw new RegraDeNegocioException("Veículo não está apreendido!");
         }
         setStatus(StatusVeiculo.REGULAR);
         setDataApreenssao(null);
